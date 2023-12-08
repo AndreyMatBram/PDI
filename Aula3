@@ -1,0 +1,33 @@
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+def main():
+    img = Image.open("./Src/images/lena_salt_pepper.tif")
+    # img.show()
+
+    img_ndarray = np.array(img)
+    # implot = plt.imshow(img_ndarray, cmap='gray')
+    # plt.show()
+
+    #operacao pixel a pixel
+    im_dark = img_ndarray.copy()
+    im_dark = img_ndarray / 4
+    print(im_dark)
+
+    # add subplots
+    fig = plt.figure()
+    plt1 = fig.add_subplot(1,2,1)
+    plt2 = fig.add_subplot(1,2,2)
+
+    # set titles
+    plt1.set_title("Original Image")
+    plt2.set_title("Filtered Image")
+
+    # plot the images
+    plt1.imshow(img_ndarray, cmap='gray')
+    plt2.imshow(im_dark, cmap='gray', vmin=0, vmax=255)
+    plt.show()
+
+if __name__ == "__main__":
+    main()
