@@ -1,0 +1,37 @@
+import numpy as np
+from PIL import Image, ImageFilter
+
+def calculate_log(r, c):
+    return c * np.log2(1 + r)
+
+def contrast(img, c):
+    img = calculate_log(img, c)
+
+    return img
+
+def main():
+    img = Image.open('./img/enhance-me.gif')
+    fil = ImageFilter.MedianFilter(3)
+    img = img.filter(fil)
+
+    for c in range(0, 101, 25):
+        img_array = np.array(img)
+        img_array = contrast(img_array, c)
+        img_array = np.uint8(img_array)
+        img_contrast = Image.fromarray(img_array)
+        img_contrast.save(f'./img/enhance/contrast/log/enhance-me-contrast-{c}.gif')
+
+    img = Image.open('./img/Fig0308(a)(fractured_spine).tif')
+    fil = ImageFilter.MedianFilter(3)
+    img = img.filter(fil)
+
+    for c in range(0, 101, 25):
+        img_array = np.array(img)
+        img_array = contrast(img_array, c)
+        img_array = np.uint8(img_array)
+        img_contrast = Image.fromarray(img_array)
+        img_contrast.save(f'./img/Fig0308/contrast/log/Fig0308(a)(fractured_spine)-{c}.tif')
+
+if __name__ == '__main__':
+    main()
+    
