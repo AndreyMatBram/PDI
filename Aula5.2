@@ -1,0 +1,41 @@
+import numpy as np
+from PIL import Image, ImageFilter
+
+
+def calculate_gamma(r, c, gamma):
+    return c * np.power(r, gamma)
+
+
+def contrast(img, gamma, c=1):
+    img = calculate_gamma(img, c, gamma)
+
+    return img
+
+
+def main() -> None:
+    img = Image.open("./img/enhance-me.gif")
+    fil = ImageFilter.MedianFilter(3)
+    img = img.filter(fil)
+
+    for gamma in [0, 0.5, 1, 1.50, 2]:
+        img_array = np.array(img)
+        img_array = contrast(img_array, gamma=gamma)
+        img_array = np.uint8(img_array)
+        img_contrast = Image.fromarray(img_array)            
+        img_contrast.save(f"./img/enhance/contrast/gamma/enhance-me-contrast-{gamma}.gif")
+
+    img = Image.open("./img/Fig0308(a)(fractured_spine).tif")
+    img = img.filter(fil)
+
+    for gamma in [0, 0.5, 1, 1.5, 2]:
+        img_array = np.array(img)
+        img_array = contrast(img_array, gamma)
+        img_array = np.uint8(img_array)
+        img_contrast = Image.fromarray(img_array)
+        img_contrast.save(
+            f"./img/Fig0308/contrast/gamma/Fig0308(a)(fractured_spine)-{gamma}.tif"
+        )
+
+
+if __name__ == "__main__":
+    main()
