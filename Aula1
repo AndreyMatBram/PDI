@@ -1,0 +1,18 @@
+from PIL import Image
+import numpy as np
+
+# Convert image to numpy array
+image_array = np.array(Image.open("Aula1\image\lena_color_512.tif"))
+
+print(image_array.shape)
+
+print(image_array[200:210,:].shape)
+# Square 20x20 in the corners
+image_array[0:20,0:20]= 0
+image_array[0:20, -20:-1] = 0
+image_array[-20:-1, 0:20] = 0
+image_array[-20:-1, -20:-1] = 0
+
+
+im_pil = Image.fromarray(image_array)
+im_pil.save("Aula1\image\lenaAlt.tif")
